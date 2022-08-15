@@ -12,27 +12,14 @@ def play_game():
     len_of_answer = number_of_letters(solution_word)
     blank_answer = show_blank_answer(len_of_answer)
     all_choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-               'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-               'W', 'X', 'Y', 'Z']
-    check_letter(all_choices, blank_answer)
+                   'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+                   'W', 'X', 'Y', 'Z']
+    check_letter(all_choices)
 
 
 # clears the console
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
-
-
-# ask the user to play
-def ask_to_play():
-    play = input('Would you like to play? [Y/N] ').upper()
-    if play != 'Y' and play != 'N':
-        print("Invalid Entry")
-        ask_to_play()
-    else:
-        if play == 'Y':
-            return
-        else:
-            exit()
 
 
 # ask the user if they want to read the rules
@@ -49,6 +36,19 @@ def read_the_rules():
                 return
         else:
             return
+
+
+# ask the user to play
+def ask_to_play():
+    play = input('Would you like to play? [Y/N] ').upper()
+    if play != 'Y' and play != 'N':
+        print("Invalid Entry")
+        ask_to_play()
+    else:
+        if play == 'Y':
+            cls()
+        else:
+            exit()
 
 
 # uses txt file to select a random word
@@ -71,15 +71,20 @@ def show_blank_answer(answer):
 
 
 # check for guessed letter
-def check_letter(all_choices, blank):
-    print(f'Choices available:\n{" ".join(all_choices)}')
-    print(all_choices)
+def check_letter(choices_left):
+    print(f'Choices available:\n{" ".join(choices_left)}')
     user_letter = input('Pick a letter: ').upper()
-    print(user_letter)
-    if user_letter in all_choices:
-        choices_left = all_choices.remove(user_letter)
-    print(choices_left)
-    # check_letter(choices_left, blank)
+    if user_letter in choices_left and len(user_letter) == 1:
+        for i in range(len(choices_left)):
+            if choices_left[i] == user_letter:
+                choices_left[i] = ' '
+    elif len(user_letter) > 1:
+        print("Invalid Entry, try again")
+        check_letter(choices_left)
+    else:
+        print(f"You've picked {user_letter} already, try again")
+        check_letter(choices_left)
+    return choices_left
 
 
 if __name__ == "__main__":
