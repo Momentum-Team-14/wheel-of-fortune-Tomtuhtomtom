@@ -9,9 +9,12 @@ def play_game():
     ask_to_play()
     with open('words.txt', 'r') as words_file:
         solution_word = select_random_word(words_file)
-    print(solution_word)
     len_of_answer = number_of_letters(solution_word)
     show_partial_answer(len_of_answer)
+    all_choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+               'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+               'W', 'X', 'Y', 'Z']
+    check_letter(all_choices)
 
 
 # clears the console
@@ -33,7 +36,6 @@ def ask_to_play():
 
 
 # ask the user if they want to read the rules
-# need to write rules file
 def read_the_rules():
     rules = input('Would you like to read the rules? [Y/N] ').upper()
     if rules != 'Y' and rules != 'N':
@@ -63,7 +65,15 @@ def number_of_letters(answer):
 
 # displays partial answer
 def show_partial_answer(answer):
-    print('\n"{:>8}"'.format(answer * "__ "))
+    blanks = answer * " __ "
+    print(f'\n " {blanks} "\n')
+
+
+# check for guessed letter
+def check_letter(choices_left):
+    print(f'Choices available:\n{" ".join(choices_left)}\n')
+    user_letter = input('Pick a letter: ').upper()
+    print(user_letter)
 
 
 if __name__ == "__main__":
