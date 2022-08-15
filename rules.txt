@@ -1,0 +1,7 @@
+A word will be randomly selected
+You will guess letters in the word
+You will have 8 guesses total
+You will lose a guess if you pick a letter not in the word
+When you run out of guesses, you lose the game
+You win when you select all the letters in the word!
+Good Luck!
