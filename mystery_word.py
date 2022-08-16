@@ -5,12 +5,15 @@ ALL_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
                'W', 'X', 'Y', 'Z']
 
+inital_list = []
 
-def play_game():
+
+def play_game(choice_letters):
     cls()
     print('Welcome to Mystery Word!!')
     read_the_rules()
     ask_to_play()
+    choice_letters = ALL_LETTERS  # need to call function to reset letters
     with open('words.txt', 'r') as words_file:
         solution_word = select_random_word(words_file)
     print(solution_word)
@@ -18,7 +21,7 @@ def play_game():
     blank_answer = show_blank_answer(len_of_answer)
     answer_key = list(solution_word)
     guesses_total = 8
-    guess_the_letter(blank_answer, answer_key, guesses_total, ALL_LETTERS)
+    guess_the_letter(blank_answer, answer_key, guesses_total, choice_letters)
 
 
 # clears the console
@@ -112,9 +115,10 @@ def guess_the_letter(partial_answer, answer, guesses, letters):
             print("You guessed all the letters!!!")
             print(f'The Mystery Word was: \n{"".join(answer)}\n')
             print("YOU WON!    " * 50)
-            for i in range(len(letters)):
-                letters[i] = ALL_LETTERS[i]
-            try_again()
+            # for i in range(len(ALL_LETTERS)):
+            #     if letters[i] == ' __ ':
+            #         letters[i] = ALL_LETTERS[i]
+            try_again(letters)
         if guesses > 0:
             guess_the_letter(partial_answer, answer, guesses, letters)
     else:
@@ -129,21 +133,21 @@ def guess_the_letter(partial_answer, answer, guesses, letters):
             print("You are out of guesses")
             print(f'The Mystery Word was: \n{"".join(answer)}\n')
             print("GAME OVER")
-            letters = ALL_LETTERS
-            try_again()
+            # letters = ALL_LETTERS
+            try_again(letters)
 
 
-def try_again():
+def try_again(letters):
     again = input('Would you like to play again? [Y/N] ').upper()
     if again != 'Y' and again != 'N':
         print("Invalid Entry")
-        try_again()
+        try_again(letters)
     else:
         if again == 'Y':
-            play_game()
+            play_game(letters)
         else:
             exit()
 
 
 if __name__ == "__main__":
-    play_game()
+    play_game(inital_list)
