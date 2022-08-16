@@ -13,11 +13,13 @@ def play_game():
     ask_to_play()
     with open('words.txt', 'r') as words_file:
         solution_word = select_random_word(words_file)
+    print(solution_word)
     len_of_answer = number_of_letters(solution_word)
     blank_answer = show_blank_answer(len_of_answer)
+    answer_key = list(solution_word)
     guesses_total = 8
     # check_letter_availability(ALL_CHOICES, guesses_total)  # put line in guess()
-    guess_the_letter(blank_answer, solution_word, guesses_total)
+    guess_the_letter(blank_answer, answer_key, guesses_total)
 
 
 # clears the console
@@ -56,7 +58,7 @@ def ask_to_play():
 
 # uses txt file to select a random word
 def select_random_word(file):
-    list_of_words = file.read().replace('\n', ' ').split()
+    list_of_words = file.read().replace('\n', ' ').upper().split()
     return random.choice(list_of_words)
 
 
@@ -94,12 +96,11 @@ def check_letter_availability(choices_left, guess):
 
 # check if guessed letter is right or wrong
 def guess_the_letter(partial_answer, answer, guesses):
-    answer_key = list(answer)
     user_guess = input('Pick a letter: ').upper()
-    if user_guess in answer_key:
-        for i in range(len(answer_key)):
-            if user_guess == answer_key[i]:
-                partial_answer[i] = answer_key[i]
+    if user_guess in answer:
+        for i in range(len(answer)):
+            if user_guess == answer[i]:
+                partial_answer[i] = answer[i]
         print(partial_answer)
         if " __ " not in partial_answer:
             cls()
@@ -115,7 +116,8 @@ def guess_the_letter(partial_answer, answer, guesses):
             guess_the_letter(partial_answer, answer, guesses)
         else:
             cls()
-            print(f'You are out of guesses\nThe Mystery Word was: \n{answer}\n')
+            print("You are out of guesses")
+            print(f'The Mystery Word was: \n{"".join(answer)}\n')
             print("GAME OVER")
             try_again()
 
