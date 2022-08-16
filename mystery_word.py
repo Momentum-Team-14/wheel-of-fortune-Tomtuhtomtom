@@ -5,7 +5,7 @@ ALL_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
                'W', 'X', 'Y', 'Z']
 
-inital_list = []
+initial_list_for_letters = []
 
 
 def play_game(choice_letters):
@@ -16,7 +16,9 @@ def play_game(choice_letters):
     choice_letters = ALL_LETTERS[:]
     with open('words.txt', 'r') as words_file:
         solution_word = select_random_word(words_file)
-    # print(solution_word)
+        # word_list = words_file.read().split('\n')[:-1]
+    # solution_word = choose_your_difficulty(word_list)
+    print(solution_word)  # Need to take out after testing
     len_of_answer = number_of_letters(solution_word)
     blank_answer = show_blank_answer(len_of_answer)
     answer_key = list(solution_word)
@@ -56,6 +58,26 @@ def ask_to_play():
             cls()
         else:
             exit()
+
+
+# Choose difficulty
+def choose_your_difficulty(list_options):
+    easy_words = [word for word in list_options if len(word) >= 4 and len(word) <= 6]
+    normal_words = [word for word in list_options if len(word) >= 6 and len(word) <= 8]
+    hard_words = [word for word in list_options if len(word) >= 8]
+    diff_setting = input('Choose your difficulty: [E]asy, [N]ormal, or [H]ard').upper()
+    if diff_setting == 'E' or diff_setting == 'EASY':
+        solution = random.choice(easy_words)
+        return solution
+    elif diff_setting == 'N' or diff_setting == 'NORMAL':
+        solution = random.choice(normal_words)
+        return solution
+    elif diff_setting == 'H' or diff_setting == 'HARD':
+        solution = random.choice(hard_words)
+        return solution
+    else:
+        print("Invalid Entry")
+        choose_your_difficulty(list_options)
 
 
 # uses txt file to select a random word
@@ -126,9 +148,9 @@ def guess_the_letter(partial_answer, answer, guesses, letters):
             guess_the_letter(partial_answer, answer, guesses, letters)
         else:
             cls()
-            print("You are out of guesses")
-            print(f'The Mystery Word was: \n{"".join(answer)}\n')
-            print("GAME OVER")
+            print(f'{"You are out of guesses"}\n')
+            print(f'The Mystery Word was: \n\n{"".join(answer)}\n\n')
+            print(f'{"GAME OVER"}\n')
             try_again(letters)
 
 
@@ -145,4 +167,4 @@ def try_again(letters):
 
 
 if __name__ == "__main__":
-    play_game(inital_list)
+    play_game(initial_list_for_letters)
