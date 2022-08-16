@@ -15,10 +15,10 @@ def play_game(choice_letters):
     ask_to_play()
     choice_letters = ALL_LETTERS[:]
     with open('words.txt', 'r') as words_file:
-        solution_word = select_random_word(words_file)
-        # word_list = words_file.read().split('\n')[:-1]
-    # solution_word = choose_your_difficulty(word_list)
-    print(solution_word)  # Need to take out after testing
+        # solution_word = select_random_word(words_file)
+        # use above line if you don't want difficulty setting and omit line below
+        solution_word = choose_your_difficulty(words_file)
+    # print(solution_word)  Answer if need to see for testing
     len_of_answer = number_of_letters(solution_word)
     blank_answer = show_blank_answer(len_of_answer)
     answer_key = list(solution_word)
@@ -54,30 +54,34 @@ def ask_to_play():
         print("Invalid Entry")
         ask_to_play()
     else:
-        if play == 'Y':
-            cls()
-        else:
+        if play == 'N':
             exit()
+        else:
+            return
 
 
 # Choose difficulty
-def choose_your_difficulty(list_options):
-    easy_words = [word for word in list_options if len(word) >= 4 and len(word) <= 6]
-    normal_words = [word for word in list_options if len(word) >= 6 and len(word) <= 8]
-    hard_words = [word for word in list_options if len(word) >= 8]
-    diff_setting = input('Choose your difficulty: [E]asy, [N]ormal, or [H]ard').upper()
+def choose_your_difficulty(file):
+    list_of_words = file.read().replace('\n', ' ').upper().split()
+    easy_words = [word for word in list_of_words if len(word) >= 4 and len(word) <= 6]
+    normal_words = [word for word in list_of_words if len(word) >= 6 and len(word) <= 8]
+    hard_words = [word for word in list_of_words if len(word) >= 8]
+    diff_setting = input('Choose your difficulty: [E]asy, [N]ormal, or [H]ard ').upper()
     if diff_setting == 'E' or diff_setting == 'EASY':
         solution = random.choice(easy_words)
+        cls()
         return solution
     elif diff_setting == 'N' or diff_setting == 'NORMAL':
         solution = random.choice(normal_words)
+        cls()
         return solution
     elif diff_setting == 'H' or diff_setting == 'HARD':
         solution = random.choice(hard_words)
+        cls()
         return solution
     else:
         print("Invalid Entry")
-        choose_your_difficulty(list_options)
+        choose_your_difficulty(file)
 
 
 # uses txt file to select a random word
