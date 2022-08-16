@@ -49,12 +49,13 @@ def read_the_rules():
 
 # ask the user to play
 def ask_to_play():
-    play = input('Would you like to play? [Y/N] ').upper()
+    play = input('Are you ready to play? [Y/N] ').upper()
     if play != 'Y' and play != 'N':
         print("Invalid Entry")
         ask_to_play()
     else:
         if play == 'N':
+            print("Come back whenever you're ready")
             exit()
         else:
             return
@@ -110,7 +111,11 @@ def check_letter_availability(choices_left, guess):
             if choices_left[i] == guess:
                 choices_left[i] = ' '
     elif len(guess) > 1:
-        print("Invalid Entry, try again")
+        print("Too many letters, you have to pick only one letter")
+        guess = input('Pick a letter: ').upper()
+        check_letter_availability(choices_left, guess)
+    elif len(guess) == 0:
+        print("No Entry, you have to pick a letter")
         guess = input('Pick a letter: ').upper()
         check_letter_availability(choices_left, guess)
     else:
@@ -134,9 +139,9 @@ def guess_the_letter(partial_answer, answer, guesses, letters):
         print(f'"{" ".join(partial_answer)}"\n')
         if " __ " not in partial_answer:
             cls()
-            print("You guessed all the letters!!!")
-            print(f'The Mystery Word was: \n{"".join(answer)}\n')
-            print("YOU WON!    " * 50)
+            print(f'{"You guessed all the letters!!!"}\n')
+            print(f'The Mystery Word was:\n\n{"".join(answer)}\n')
+            print(f'{"YOU WON!    " * 50}\n')
             for i in range(len(ALL_LETTERS)):
                 if letters[i] == ' ':
                     letters[i] = ALL_LETTERS[i]
