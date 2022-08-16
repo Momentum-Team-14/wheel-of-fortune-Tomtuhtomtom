@@ -1,7 +1,7 @@
 import random
 import os
 
-ALL_CHOICES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+ALL_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
                'W', 'X', 'Y', 'Z']
 
@@ -18,8 +18,7 @@ def play_game():
     blank_answer = show_blank_answer(len_of_answer)
     answer_key = list(solution_word)
     guesses_total = 8
-    # check_letter_availability(ALL_CHOICES, guesses_total)  # put line in guess()
-    guess_the_letter(blank_answer, answer_key, guesses_total)
+    guess_the_letter(blank_answer, answer_key, guesses_total, ALL_LETTERS)
 
 
 # clears the console
@@ -77,7 +76,7 @@ def show_blank_answer(answer):
 
 # check for guessed letter
 def check_letter_availability(choices_left, guess):
-    print(f'Choices available:\n{" ".join(choices_left)}')
+    # print(f'Choices available:\n{" ".join(choices_left)}')
     if guess in choices_left and len(guess) == 1:
         for i in range(len(choices_left)):
             if choices_left[i] == guess:
@@ -95,30 +94,42 @@ def check_letter_availability(choices_left, guess):
 
 
 # check if guessed letter is right or wrong
-def guess_the_letter(partial_answer, answer, guesses):
+def guess_the_letter(partial_answer, answer, guesses, letters):
+    # print(letters)
+    print(f'Letters available:\n{" ".join(letters)}\n')
     user_guess = input('Pick a letter: ').upper()
+    check_letter_availability(letters, user_guess)
+    # cls()  # May want to add in later
     if user_guess in answer:
         for i in range(len(answer)):
             if user_guess == answer[i]:
                 partial_answer[i] = answer[i]
-        print(partial_answer)
+        cls()
+        print(f'{"Nice guess!"}\n')
+        print(f'"{" ".join(partial_answer)}"\n')
         if " __ " not in partial_answer:
             cls()
             print("You guessed all the letters!!!")
-            print(f'The Mystery Word was: \n{"".join(partial_answer)}\n')
+            print(f'The Mystery Word was: \n{"".join(answer)}\n')
             print("YOU WON!    " * 50)
+            for i in range(len(letters)):
+                letters[i] = ALL_LETTERS[i]
             try_again()
         if guesses > 0:
-            guess_the_letter(partial_answer, answer, guesses)
+            guess_the_letter(partial_answer, answer, guesses, letters)
     else:
+        cls()
+        print(f'Sorry, {user_guess} is not in the Mystery Word\n')
+        print(f'"{" ".join(partial_answer)}"\n')
         guesses -= 1
         if guesses > 0:
-            guess_the_letter(partial_answer, answer, guesses)
+            guess_the_letter(partial_answer, answer, guesses, letters)
         else:
             cls()
             print("You are out of guesses")
             print(f'The Mystery Word was: \n{"".join(answer)}\n')
             print("GAME OVER")
+            letters = ALL_LETTERS
             try_again()
 
 
