@@ -12,7 +12,7 @@ initial_list_for_letters = []
 def play_game(choice_letters):
     cls()
     print(Fore.YELLOW)
-    print(f'{"***Welcome to Mystery Word!!***"}')
+    print(f'{"    ***Welcome to Mystery Word!!***"}')
     print(Fore.GREEN)
     read_the_rules()
     ask_to_play()
@@ -38,7 +38,7 @@ def cls():
 def read_the_rules():
     rules = input(Fore.GREEN + 'Would you like to read the rules? [Y/N] ').upper()
     if rules != 'Y' and rules != 'N':
-        print(Fore.RED + "Invalid Entry")
+        print(Fore.RED + "Invalid Entry \U0001F610")
         read_the_rules()
     else:
         if rules == 'Y':
@@ -56,7 +56,7 @@ def read_the_rules():
 def ask_to_play():
     play = input(Fore.GREEN + 'Are you ready to play? [Y/N] ').upper()
     if play != 'Y' and play != 'N':
-        print(Fore.RED + "Invalid Entry")
+        print(Fore.RED + "Invalid Entry \U0001F610")
         ask_to_play()
     else:
         if play == 'N':
@@ -87,7 +87,7 @@ def choose_your_difficulty(file):
         cls()
         return solution
     else:
-        print("Invalid Entry")
+        print("Invalid Entry \U0001F610")
         choose_your_difficulty(file)
 
 
@@ -120,21 +120,21 @@ def check_letter_availability(choices_left, guess):
                 choices_left[i] = ' '
     elif len(guess) > 1:
         print(Fore.RED)
-        print("Too many letters, you have to pick only one letter")
+        print("Too many letters, you have to pick only one letter \U0001F610")
         print(Fore.GREEN)
-        guess = input('Pick a letter: ').upper()
+        guess = input('Pick a letter \U0001F914: ').upper()
         check_letter_availability(choices_left, guess)
     elif len(guess) == 0:
         print(Fore.RED)
-        print("No Entry, you have to pick a letter")
+        print("No Entry, you have to pick a letter \U0001F610")
         print(Fore.GREEN)
-        guess = input('Pick a letter: ').upper()
+        guess = input('Pick a letter \U0001F914: ').upper()
         check_letter_availability(choices_left, guess)
     else:
         print(Fore.RED)
-        print(f"You've picked {guess} already, try again")
+        print(f"You've picked {guess} already, try again \U0001F610")
         print(Fore.GREEN)
-        guess = input('Pick a letter: ').upper()
+        guess = input('Pick a letter \U0001F914: ').upper()
         check_letter_availability(choices_left, guess)
     return guess
 
@@ -142,18 +142,18 @@ def check_letter_availability(choices_left, guess):
 # check if guessed letter is right or wrong
 def guess_the_letter(partial_answer, answer, guesses, letters):
     print(Fore.CYAN + f'Letters available:\n{" ".join(letters)}\n')
-    user_guess = input(Fore.GREEN + 'Pick a letter: ').upper()
+    user_guess = input(Fore.GREEN + 'Pick a letter \U0001F914: ').upper()
     user_guess = check_letter_availability(letters, user_guess)
     if user_guess in answer:
         for i in range(len(answer)):
             if user_guess == answer[i]:
                 partial_answer[i] = answer[i]
         cls()
-        print(Fore.YELLOW + f'{"Nice guess!"}\n')
+        print(Fore.YELLOW + f'{"Nice guess!"} \U0001F603 {"You still have"} {guesses} {"guesses left!"}\n')
         print(Fore.WHITE + f'"{" ".join(partial_answer)}"\n')
         if " __ " not in partial_answer:
             cls()
-            print(Fore.YELLOW + f'{"You guessed all the letters!!!"}\n')
+            print(Fore.YELLOW + f'{"You guessed all the letters!!!"} \U0001F973\n')
             print(Fore.CYAN + f'The Mystery Word was:\n\n{"".join(answer)}\n')
             print(Fore.MAGENTA + f'{"YOU WON!    " * 50}\n')
             for i in range(len(ALL_LETTERS)):
@@ -165,22 +165,22 @@ def guess_the_letter(partial_answer, answer, guesses, letters):
     else:
         cls()
         guesses -= 1
-        print(Fore.RED + f'Sorry, {user_guess} is not in the Mystery Word. You have {guesses} guesses left!\n')
+        print(Fore.RED + f'Sorry, {user_guess} is not in the Mystery Word. \U0001F641 You have {guesses} guesses left!\n')
         print(Fore.WHITE + f'"{" ".join(partial_answer)}"\n')
         if guesses > 0:
             guess_the_letter(partial_answer, answer, guesses, letters)
         else:
             cls()
-            print(Fore.RED + f'{"You are out of guesses"}\n')
+            print(Fore.RED + f'{"You are out of guesses "}\U0001F641\n')
             print(Fore.WHITE + f'The Mystery Word was: \n\n{"".join(answer)}\n\n')
-            print(Fore.RED + f'{"GAME OVER"}\n')
+            print(Fore.RED + f'{"GAME OVER "}\U0001F92C\n')
             try_again(letters)
 
 
 def try_again(letters):
     again = input(Fore.GREEN + 'Would you like to play again? [Y/N] ').upper()
     if again != 'Y' and again != 'N':
-        print(Fore.RED + "Invalid Entry")
+        print(Fore.RED + "Invalid Entry \U0001F610")
         try_again(letters)
     else:
         if again == 'Y':
